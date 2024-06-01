@@ -7,9 +7,11 @@ const BookList = async () => {
     console.log(process.env.BACKEND_URL)
     const response = await fetch(`${process.env.BACKEND_URL}/books`, { cache: 'no-store' });
     
-    if (!response.ok) {
-        throw new Error('An error occurred while fetching the books');
-    }
+   if (!response.ok) {
+    const errorMessage = await response.text();
+    throw new Error(`An error occurred while fetching the books: ${errorMessage}`);
+}
+
 
     const books = await response.json();
 
